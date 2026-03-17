@@ -42,52 +42,32 @@ export const copy = {
       zh: "高端数字资产基础设施",
     },
     title: {
-      en: "S-Gold turns digital assets into a structured, AI-guided growth system.",
-      zh: "S-Gold 把数字资产转化为一个结构化、由 AI 引导的增长系统。",
+      en: "S-Gold makes assets more than something you hold. It turns them into structured participation and growth.",
+      zh: "S-Gold 让资产不只是被持有，而是能够参与并产生结构化增长。",
     },
     description: {
-      en: "A system where assets, participation, and distribution are structured, and explained through an integrated AI advisor.",
-      zh: "这是一个把资产、参与关系与分配逻辑结构化，并通过集成式 AI 顾问进行解释的系统。",
+      en: "A system that connects assets, participation, and distribution, with real-time explanation and guidance from an integrated AI advisor.",
+      zh: "一个把资产、参与与分配连接起来的系统，并由集成式 AI 顾问实时解释与引导。",
     },
     punchline: {
-      en: "Ask the system. Understand before you participate.",
-      zh: "先问系统，再理解，再决定是否参与。",
+      en: "Understand the system first, then decide whether to participate.",
+      zh: "先理解系统，再决定是否参与。",
     },
     askAiNow: {
-      en: "Ask AI Now",
-      zh: "立即问 AI",
-    },
-    aiLive: {
-      en: "AI Advisor is live",
-      zh: "AI 顾问已上线",
-    },
-    aiLiveDescription: {
-      en: "Ask about the system model, revenue logic, node fit, or request a translated explanation before you move deeper into the page.",
-      zh: "你可以先问系统模型、收益逻辑、节点匹配，或直接要求中文解释，再继续往下看页面。",
-    },
-    systemModel: {
-      en: "System model",
-      zh: "系统模型",
-    },
-    revenueLogic: {
-      en: "Revenue logic",
-      zh: "收益逻辑",
-    },
-    nodeFit: {
-      en: "Node fit",
-      zh: "节点匹配",
+      en: "Ask AI Advisor",
+      zh: "问 AI 顾问",
     },
     aiConsole: {
-      en: "AI Advisor Console",
-      zh: "AI 顾问控制台",
+      en: "AI Advisor",
+      zh: "AI 顾问",
     },
     heroConsoleSub: {
-      en: "Live decision entry inside the Hero",
-      zh: "Hero 首屏中的实时决策入口",
+      en: "Ask before you go deeper into the system",
+      zh: "在继续了解系统前，先直接提问",
     },
     aiActive: {
-      en: "AI Active",
-      zh: "AI 在线",
+      en: "Live",
+      zh: "在线",
     },
   },
   sections: {

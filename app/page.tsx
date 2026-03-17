@@ -1,6 +1,6 @@
 "use client";
 
-import { ArrowRight, Check, ChevronRight } from "lucide-react";
+import { ArrowRight, ChevronRight } from "lucide-react";
 
 import { AiAdvisor } from "@/components/ai-advisor";
 import { AskAiButton } from "@/components/ask-ai-button";
@@ -22,11 +22,8 @@ import { useSiteLanguage } from "@/components/language-provider";
 import {
   copy,
   getLocalizedArchitectureCards,
-  getLocalizedCtaLinks,
   getLocalizedEcosystemGroups,
   getLocalizedFooterSignals,
-  getLocalizedHeroSummary,
-  getLocalizedMetrics,
   getLocalizedNodeCards,
   getLocalizedProcessFlow,
   getLocalizedRevenueCards,
@@ -34,15 +31,9 @@ import {
   getLocalizedWhyNowCards,
   t,
 } from "@/lib/copy";
-import {
-  ctaLinks,
-} from "@/lib/site-data";
 
 export default function Home() {
   const { language } = useSiteLanguage();
-  const localizedMetrics = getLocalizedMetrics(language);
-  const localizedCtaLinks = getLocalizedCtaLinks(language);
-  const localizedHeroSummary = getLocalizedHeroSummary(language);
   const localizedWhatIsCards = getLocalizedWhatIsCards(language);
   const localizedWhyNowCards = getLocalizedWhyNowCards(language);
   const localizedArchitectureCards = getLocalizedArchitectureCards(language);
@@ -80,53 +71,20 @@ export default function Home() {
               label={t(language, copy.hero.askAiNow)}
               className="inline-flex min-h-14 items-center gap-2 rounded-full bg-gradient-to-r from-highlight to-darkGold px-6 font-[var(--font-inter)] text-sm font-medium text-background shadow-gold"
             />
-            {localizedCtaLinks.map((link) => {
-              const Icon = link.icon;
-              return (
-                <a
-                  key={link.label}
-                  href={link.href}
-                  className="inline-flex min-h-14 items-center gap-2 rounded-full border border-white/10 bg-white/[0.03] px-6 font-[var(--font-inter)] text-sm font-medium text-primary transition hover:border-gold/30"
-                >
-                  {link.label}
-                  <Icon className="h-4 w-4" />
-                </a>
-              );
-            })}
-          </div>
-
-          <div className="glass-panel rounded-[28px] border border-gold/20 p-5">
-            <p className="font-[var(--font-inter)] text-sm uppercase tracking-[0.24em] text-gold">{t(language, copy.hero.aiLive)}</p>
-            <p className="mt-3 max-w-2xl text-base leading-8 text-secondaryText">
-              {t(language, copy.hero.aiLiveDescription)}
-            </p>
-            <div className="mt-4 flex flex-wrap gap-2">
-              <AskAiButton prompt="Explain the S-Gold system model." label={t(language, copy.hero.systemModel)} />
-              <AskAiButton prompt="Explain S-Gold revenue logic in a simple way." label={t(language, copy.hero.revenueLogic)} />
-              <AskAiButton prompt="Help me understand which node tier may fit me." label={t(language, copy.hero.nodeFit)} />
-            </div>
-          </div>
-
-          <div className="grid gap-3 md:grid-cols-3">
-            {localizedMetrics.map((item, index) => (
-              <Reveal key={item.label} delay={index * 0.08}>
-                <article className="glass-panel card-hover rounded-card border border-border p-5">
-                  <p className="font-[var(--font-inter)] text-4xl font-semibold tracking-[-0.04em] text-highlight">
-                    {item.value}
-                  </p>
-                  <p className="mt-3 font-[var(--font-inter)] text-base font-medium text-primary">{item.label}</p>
-                  <p className="mt-2 text-sm leading-7 text-muted">{item.note}</p>
-                </article>
-              </Reveal>
-            ))}
+            <a
+              href="#what-is"
+              className="inline-flex min-h-14 items-center gap-2 rounded-full border border-white/10 bg-white/[0.03] px-6 font-[var(--font-inter)] text-sm font-medium text-primary transition hover:border-gold/30"
+            >
+              {t(language, copy.sections.cta.explore)}
+              <ArrowRight className="h-4 w-4" />
+            </a>
           </div>
         </Reveal>
 
-        <Reveal delay={0.12} className="relative overflow-hidden rounded-[36px] border border-white/8 bg-aura p-4 shadow-gold">
-          <div className="glass-panel relative overflow-hidden rounded-[32px] border border-white/8 bg-secondary/70 px-6 py-8 md:px-8 md:py-10">
-            <div className="absolute inset-x-8 top-8 h-px bg-gradient-to-r from-transparent via-gold/60 to-transparent" />
-            <div className="absolute left-[-8%] top-[8%] h-48 w-48 rounded-full bg-gold/10 blur-3xl" />
-            <div className="absolute bottom-[10%] right-[-8%] h-60 w-60 rounded-full bg-highlight/10 blur-3xl" />
+        <Reveal delay={0.12} className="relative overflow-hidden rounded-[36px] bg-aura p-[1px] shadow-[0_30px_120px_rgba(214,185,138,0.18)]">
+          <div className="relative overflow-hidden rounded-[36px] bg-secondary/78 px-6 py-8 md:px-8 md:py-10">
+            <div className="absolute left-[-8%] top-[8%] h-48 w-48 rounded-full bg-gold/12 blur-3xl" />
+            <div className="absolute bottom-[10%] right-[-8%] h-60 w-60 rounded-full bg-highlight/12 blur-3xl" />
 
             <div className="relative flex min-h-[540px] flex-col justify-between">
               <div className="flex items-center justify-between">
@@ -146,23 +104,6 @@ export default function Home() {
                 <p className="relative font-[var(--font-inter)] text-[12rem] font-semibold leading-none tracking-[-0.08em] text-white/[0.05] md:text-[16rem]">
                   S
                 </p>
-                <div className="absolute inset-x-0 top-1/2 mx-auto max-w-md -translate-y-1/2 space-y-3 rounded-[28px] border border-white/10 bg-background/60 px-6 py-5 backdrop-blur-md">
-                  <p className="font-[var(--font-inter)] text-sm uppercase tracking-[0.24em] text-gold">
-                    Core Positioning
-                  </p>
-                  <p className="text-lg leading-8 text-secondaryText">
-                    Assets become system inputs. Finance becomes infrastructure. Consumption becomes demand.
-                  </p>
-                </div>
-              </div>
-
-              <div className="grid gap-3 md:grid-cols-3">
-              {localizedHeroSummary.map((item) => (
-                  <div key={item} className="rounded-[20px] border border-white/8 bg-white/[0.03] p-4">
-                    <Check className="h-5 w-5 text-gold" />
-                    <p className="mt-3 text-sm leading-7 text-secondaryText">{item}</p>
-                  </div>
-                ))}
               </div>
             </div>
             <HeroAiPanel />
