@@ -1,63 +1,62 @@
-# AISGOLD Landing Page
+# S-Gold Landing Page
 
-一个面向 Vercel 部署的静态单页官网，围绕“资产持续产出引擎”叙事构建，包含完整转化页面结构和一个前端版 AI 顾问 Demo。
+一个使用 `Next.js + Tailwind CSS + Framer Motion + lucide-react` 构建的高端深色系机构风落地页，面向数字资产基础设施项目展示。
 
-## 当前结构
+## 技术栈
 
-- `index.html`: 主页面
-- `styles.css`: 样式文件
-- `script.js`: 页面交互与 AI 顾问 Demo
-- `vercel.json`: Vercel 部署和响应头配置
+- Next.js App Router
+- React
+- Tailwind CSS
+- Framer Motion
+- lucide-react
 
-## 本地预览
-
-如果你只想本地打开，直接双击 `index.html` 即可。
-
-如果你想用本地服务器预览，可以运行：
+## 本地开发
 
 ```bash
-python3 -m http.server 4173
+npm install
+npm run dev
 ```
 
-然后访问 `http://localhost:4173`
+默认访问 `http://localhost:3000`
+
+## 页面模块
+
+- Sticky Header
+- Hero
+- What is S-Gold
+- Why Now
+- System Architecture
+- Core Logic
+- Revenue Model
+- Fission / Growth Model
+- Node System
+- Ecosystem
+- Roadmap
+- FAQ
+- CTA Footer
+
+## 内容编辑
+
+主要内容数据位于：
+
+- `lib/site-data.ts`
+
+页面结构和组件位于：
+
+- `app/page.tsx`
+- `components/*`
 
 ## Vercel 部署
 
 1. 登录 Vercel
 2. Import Git Repository
 3. 选择 `ronfatt/sgold`
-4. Framework Preset 选择 `Other`
-5. 保持默认输出设置并直接部署
+4. Vercel 会自动识别为 Next.js 项目
+5. 直接部署
 
-这个仓库是纯静态站，不需要构建命令也能直接上线。
+## 后续建议
 
-## 下一步升级建议
-
-### 1. 接入真实 AI 顾问
-
-推荐升级到 `Next.js`，然后在服务端 API 中调用 OpenAI：
-
-- 新手问题解释
-- 个性化参与路径推荐
-- FAQ 智能问答
-- 节点顾问助手
-
-### 2. 什么时候接 Supabase
-
-如果你要做这些功能，再接 Supabase：
-
-- 登录 / 注册
-- 顾问聊天记录
-- 节点申请表
-- 用户资料和权限
-- FAQ / 内容后台
-
-### 3. 什么时候只用 Vercel 就够了
-
-如果当前阶段目标只是：
-
-- 上线官网
-- 展示系统结构
-- 演示 AI 顾问概念
-
-那么 `Git + Vercel` 就足够。
+- 接入真实 OpenAI 顾问层
+- 增加中英文内容切换
+- 把生态 logo 和图表替换成真实品牌与数据
+- 接入 Supabase 做线索收集、FAQ 后台和节点申请
