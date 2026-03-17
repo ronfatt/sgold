@@ -1,11 +1,16 @@
+"use client";
+
 import { ArrowRight, Check, ChevronRight } from "lucide-react";
 
 import { AiAdvisor } from "@/components/ai-advisor";
+import { AskAiButton } from "@/components/ask-ai-button";
 import { AssetHub } from "@/components/asset-hub";
 import { DownloadCenter } from "@/components/download-center";
 import { FaqAccordion } from "@/components/faq-accordion";
+import { FloatingAiWidget } from "@/components/floating-ai-widget";
 import { FlowDiagram } from "@/components/flow-diagram";
 import { GrowthDiagram } from "@/components/growth-diagram";
+import { HeroAiPanel } from "@/components/hero-ai-panel";
 import { OfficialLinks } from "@/components/official-links";
 import { Reveal } from "@/components/reveal";
 import { RevenueDiagram } from "@/components/revenue-diagram";
@@ -13,52 +18,75 @@ import { RoadmapTimeline } from "@/components/roadmap-timeline";
 import { SectionShell } from "@/components/section-shell";
 import { SiteHeader } from "@/components/site-header";
 import { SocialProof } from "@/components/social-proof";
+import { useSiteLanguage } from "@/components/language-provider";
 import {
-  architectureCards,
+  copy,
+  getLocalizedArchitectureCards,
+  getLocalizedCtaLinks,
+  getLocalizedEcosystemGroups,
+  getLocalizedFooterSignals,
+  getLocalizedHeroSummary,
+  getLocalizedMetrics,
+  getLocalizedNodeCards,
+  getLocalizedProcessFlow,
+  getLocalizedRevenueCards,
+  getLocalizedWhatIsCards,
+  getLocalizedWhyNowCards,
+  t,
+} from "@/lib/copy";
+import {
   ctaLinks,
-  ecosystemGroups,
-  footerSignals,
-  heroSummary,
-  metrics,
-  nodeCards,
-  processFlow,
-  revenueCards,
-  whatIsCards,
-  whyNowCards,
 } from "@/lib/site-data";
 
 export default function Home() {
+  const { language } = useSiteLanguage();
+  const localizedMetrics = getLocalizedMetrics(language);
+  const localizedCtaLinks = getLocalizedCtaLinks(language);
+  const localizedHeroSummary = getLocalizedHeroSummary(language);
+  const localizedWhatIsCards = getLocalizedWhatIsCards(language);
+  const localizedWhyNowCards = getLocalizedWhyNowCards(language);
+  const localizedArchitectureCards = getLocalizedArchitectureCards(language);
+  const localizedProcessFlow = getLocalizedProcessFlow(language);
+  const localizedRevenueCards = getLocalizedRevenueCards(language);
+  const localizedNodeCards = getLocalizedNodeCards(language);
+  const localizedEcosystemGroups = getLocalizedEcosystemGroups(language);
+  const localizedFooterSignals = getLocalizedFooterSignals(language);
+
   return (
     <main className="pb-16">
       <SiteHeader />
+      <FloatingAiWidget />
 
       <section id="hero" className="section-shell grid items-center gap-10 lg:grid-cols-[1.05fr_0.95fr] lg:pt-16">
         <Reveal className="space-y-8">
           <div className="space-y-5">
             <p className="font-[var(--font-inter)] text-sm uppercase tracking-[0.32em] text-gold">
-              Premium Digital Asset Infrastructure
+              {t(language, copy.hero.eyebrow)}
             </p>
             <h1 className="max-w-4xl font-[var(--font-inter)] text-5xl font-semibold leading-[0.92] tracking-[-0.05em] text-primary md:text-7xl">
-              S-Gold builds a knowledge-first infrastructure layer for digital asset growth.
+              {t(language, copy.hero.title)}
             </h1>
             <p className="max-w-2xl text-lg leading-8 text-secondaryText">
-              Designed as a premium investor-facing presentation, S-Gold frames assets, payments, and
-              consumption as one institutional system rather than a hype-driven token page.
+              {t(language, copy.hero.description)}
+            </p>
+            <p className="max-w-2xl text-base font-medium leading-8 text-highlight">
+              {t(language, copy.hero.punchline)}
             </p>
           </div>
 
           <div className="flex flex-wrap gap-4">
-            {ctaLinks.map((link, index) => {
+            <AskAiButton
+              prompt="Explain S-Gold in simple terms and guide me on what to review first."
+              label={t(language, copy.hero.askAiNow)}
+              className="inline-flex min-h-14 items-center gap-2 rounded-full bg-gradient-to-r from-highlight to-darkGold px-6 font-[var(--font-inter)] text-sm font-medium text-background shadow-gold"
+            />
+            {localizedCtaLinks.map((link) => {
               const Icon = link.icon;
               return (
                 <a
                   key={link.label}
                   href={link.href}
-                  className={`inline-flex min-h-14 items-center gap-2 rounded-full px-6 font-[var(--font-inter)] text-sm font-medium transition ${
-                    index === 0
-                      ? "bg-gradient-to-r from-highlight to-darkGold text-background shadow-gold"
-                      : "border border-white/10 bg-white/[0.03] text-primary hover:border-gold/30"
-                  }`}
+                  className="inline-flex min-h-14 items-center gap-2 rounded-full border border-white/10 bg-white/[0.03] px-6 font-[var(--font-inter)] text-sm font-medium text-primary transition hover:border-gold/30"
                 >
                   {link.label}
                   <Icon className="h-4 w-4" />
@@ -67,8 +95,20 @@ export default function Home() {
             })}
           </div>
 
+          <div className="glass-panel rounded-[28px] border border-gold/20 p-5">
+            <p className="font-[var(--font-inter)] text-sm uppercase tracking-[0.24em] text-gold">{t(language, copy.hero.aiLive)}</p>
+            <p className="mt-3 max-w-2xl text-base leading-8 text-secondaryText">
+              {t(language, copy.hero.aiLiveDescription)}
+            </p>
+            <div className="mt-4 flex flex-wrap gap-2">
+              <AskAiButton prompt="Explain the S-Gold system model." label={t(language, copy.hero.systemModel)} />
+              <AskAiButton prompt="Explain S-Gold revenue logic in a simple way." label={t(language, copy.hero.revenueLogic)} />
+              <AskAiButton prompt="Help me understand which node tier may fit me." label={t(language, copy.hero.nodeFit)} />
+            </div>
+          </div>
+
           <div className="grid gap-3 md:grid-cols-3">
-            {metrics.map((item, index) => (
+            {localizedMetrics.map((item, index) => (
               <Reveal key={item.label} delay={index * 0.08}>
                 <article className="glass-panel card-hover rounded-card border border-border p-5">
                   <p className="font-[var(--font-inter)] text-4xl font-semibold tracking-[-0.04em] text-highlight">
@@ -92,12 +132,12 @@ export default function Home() {
               <div className="flex items-center justify-between">
                 <div>
                   <p className="font-[var(--font-inter)] text-xs uppercase tracking-[0.28em] text-gold">
-                    Institutional Snapshot
+                    {t(language, copy.hero.aiConsole)}
                   </p>
-                  <p className="mt-2 text-sm text-muted">A premium dark-theme system overview</p>
+                  <p className="mt-2 text-sm text-muted">{t(language, copy.hero.heroConsoleSub)}</p>
                 </div>
                 <span className="rounded-full border border-gold/20 bg-gold/10 px-4 py-2 text-sm text-highlight">
-                  Investor View
+                  {t(language, copy.hero.aiActive)}
                 </span>
               </div>
 
@@ -117,7 +157,7 @@ export default function Home() {
               </div>
 
               <div className="grid gap-3 md:grid-cols-3">
-                {heroSummary.map((item) => (
+              {localizedHeroSummary.map((item) => (
                   <div key={item} className="rounded-[20px] border border-white/8 bg-white/[0.03] p-4">
                     <Check className="h-5 w-5 text-gold" />
                     <p className="mt-3 text-sm leading-7 text-secondaryText">{item}</p>
@@ -125,15 +165,18 @@ export default function Home() {
                 ))}
               </div>
             </div>
+            <HeroAiPanel />
           </div>
         </Reveal>
       </section>
 
       <SectionShell
         id="download-center"
-        eyebrow="Download Center"
-        title="Official materials should read like premium institutional documentation."
-        description="A featured document card leads the section, while secondary files stay compact, categorized, and easy to scan."
+        eyebrow={t(language, copy.sections.download.eyebrow)}
+        title={t(language, copy.sections.download.title)}
+        description={t(language, copy.sections.download.description)}
+        askAiPrompt="Which S-Gold documents should I start with if I want to understand the project quickly?"
+        askAiFocus="advisor"
       >
         <Reveal>
           <DownloadCenter />
@@ -142,12 +185,14 @@ export default function Home() {
 
       <SectionShell
         id="what-is"
-        eyebrow="What is S-Gold"
-        title="A premium operating narrative for digital asset infrastructure."
-        description="This section explains S-Gold like a boardroom presentation: what it is, why it exists, and how it defines productive participation."
+        eyebrow={t(language, copy.sections.whatIs.eyebrow)}
+        title={t(language, copy.sections.whatIs.title)}
+        description={t(language, copy.sections.whatIs.description)}
+        askAiPrompt="Explain what S-Gold is in simple terms for a first-time visitor."
+        askAiFocus="explain"
       >
         <div className="grid gap-5 md:grid-cols-3">
-          {whatIsCards.map((card, index) => {
+          {localizedWhatIsCards.map((card, index) => {
             const Icon = card.icon;
             return (
               <Reveal key={card.title} delay={index * 0.06}>
@@ -166,12 +211,14 @@ export default function Home() {
 
       <SectionShell
         id="why-now"
-        eyebrow="Why Now"
-        title="The timing works because passive assets and old financial rails no longer explain the future."
-        description="This section educates the visitor instead of selling too early, creating the institutional logic for why this system needs to exist."
+        eyebrow={t(language, copy.sections.whyNow.eyebrow)}
+        title={t(language, copy.sections.whyNow.title)}
+        description={t(language, copy.sections.whyNow.description)}
+        askAiPrompt="Why does S-Gold think understanding the system matters more than entering early?"
+        askAiFocus="explain"
       >
         <div className="grid gap-5 lg:grid-cols-[1fr_1fr_1fr]">
-          {whyNowCards.map((card, index) => {
+          {localizedWhyNowCards.map((card, index) => {
             const Icon = card.icon;
             return (
               <Reveal key={card.title} delay={index * 0.06}>
@@ -199,12 +246,14 @@ export default function Home() {
 
       <SectionShell
         id="architecture"
-        eyebrow="System Architecture"
-        title="Three coordinated engines define the S-Gold system."
-        description="Each engine has a distinct role in making the model legible to investors and scalable for future product extensions."
+        eyebrow={t(language, copy.sections.architecture.eyebrow)}
+        title={t(language, copy.sections.architecture.title)}
+        description={t(language, copy.sections.architecture.description)}
+        askAiPrompt="Explain the three engines of S-Gold and how they work together."
+        askAiFocus="explain"
       >
         <div className="grid gap-5 lg:grid-cols-3">
-          {architectureCards.map((card, index) => {
+          {localizedArchitectureCards.map((card, index) => {
             const Icon = card.icon;
             return (
               <Reveal key={card.title} delay={index * 0.07}>
@@ -226,25 +275,29 @@ export default function Home() {
 
       <SectionShell
         id="core-logic"
-        eyebrow="Core Logic"
-        title="A five-step process makes the model understandable."
-        description="The flow is intentionally simple and legible, using horizontal progression instead of dense technical diagrams."
+        eyebrow={t(language, copy.sections.coreLogic.eyebrow)}
+        title={t(language, copy.sections.coreLogic.title)}
+        description={t(language, copy.sections.coreLogic.description)}
+        askAiPrompt="Walk me through the five-step logic of S-Gold like I am a serious new prospect."
+        askAiFocus="explain"
       >
         <Reveal>
-          <FlowDiagram steps={processFlow} />
+          <FlowDiagram steps={localizedProcessFlow} />
         </Reveal>
       </SectionShell>
 
       <SectionShell
         id="revenue"
-        eyebrow="Revenue Model"
-        title="Revenue is framed as system activity, not promise-driven speculation."
-        description="This block pairs cards, a minimal chart, and one explanation panel so the economics feel premium and readable."
+        eyebrow={t(language, copy.sections.revenue.eyebrow)}
+        title={t(language, copy.sections.revenue.title)}
+        description={t(language, copy.sections.revenue.description)}
+        askAiPrompt="Ask AI to explain S-Gold distribution logic and where revenue is supposed to come from."
+        askAiFocus="explain"
       >
         <div className="grid gap-5 lg:grid-cols-[1.1fr_0.9fr]">
           <div className="grid gap-5">
             <div className="grid gap-5 md:grid-cols-3">
-              {revenueCards.map((card, index) => {
+              {localizedRevenueCards.map((card, index) => {
                 const Icon = card.icon;
                 return (
                   <Reveal key={card.title} delay={index * 0.06}>
@@ -294,9 +347,11 @@ export default function Home() {
 
       <SectionShell
         id="growth-model"
-        eyebrow="Fission / Growth Model"
-        title="Growth is shown as an elegant network tree, not a noisy recruitment chart."
-        description="The tree is intentionally restrained to keep it premium while still visualizing compounding structure."
+        eyebrow={t(language, copy.sections.growth.eyebrow)}
+        title={t(language, copy.sections.growth.title)}
+        description={t(language, copy.sections.growth.description)}
+        askAiPrompt="Explain the growth model in a clear, non-hype way."
+        askAiFocus="explain"
       >
         <div className="grid gap-5 lg:grid-cols-[0.9fr_1.1fr]">
           <Reveal>
@@ -327,10 +382,12 @@ export default function Home() {
         id="node-system"
         eyebrow="Node System"
         title="Node tiers are presented like premium pricing and participation packages."
-        description="This gives larger participants and team leaders a clean institutional frame for roles, benefits, and progression."
+        description="This gives larger participants and team leaders a clean institutional frame for roles, benefits, and progression. Not sure which node fits you? Ask the AI advisor."
+        askAiPrompt="Which S-Gold node tier might fit me best if I tell you my goals and budget?"
+        askAiFocus="advisor"
       >
         <div className="grid gap-5 xl:grid-cols-4 md:grid-cols-2">
-          {nodeCards.map((card, index) => (
+          {localizedNodeCards.map((card, index) => (
             <Reveal key={card.title} delay={index * 0.06}>
               <article className="glass-panel card-hover flex h-full flex-col rounded-card border border-border p-6 md:p-7">
                 <p className="font-[var(--font-inter)] text-xs uppercase tracking-[0.28em] text-gold">{card.eyebrow}</p>
@@ -354,9 +411,11 @@ export default function Home() {
         eyebrow="Ecosystem"
         title="The ecosystem is grouped into clear operating categories."
         description="Logo grids are shown as curated placeholders so future partners can be swapped in without touching layout logic."
+        askAiPrompt="Explain how the S-Gold ecosystem connects infrastructure, payments, and consumption."
+        askAiFocus="explain"
       >
         <div className="grid gap-5 lg:grid-cols-3">
-          {ecosystemGroups.map((group, index) => (
+          {localizedEcosystemGroups.map((group, index) => (
             <Reveal key={group.title} delay={index * 0.06}>
               <article className="glass-panel rounded-card border border-border p-6 md:p-7">
                 <h3 className="font-[var(--font-inter)] text-2xl font-semibold tracking-[-0.04em] text-primary">
@@ -383,6 +442,8 @@ export default function Home() {
         eyebrow="Roadmap"
         title="The roadmap should feel like an operating timeline, not a stack of black cards."
         description="Desktop uses a horizontal phase progression, while mobile shifts to a clear vertical track with highlighted status states."
+        askAiPrompt="Summarize the S-Gold roadmap and tell me what stage the project is in right now."
+        askAiFocus="advisor"
       >
         <Reveal>
           <RoadmapTimeline />
@@ -394,6 +455,8 @@ export default function Home() {
         eyebrow="Community Asset Hub"
         title="Community resources need system logic, not a pile of loose files."
         description="Tabs organize the library, card proportions stay consistent, and the hover layer keeps downloads clean without cluttering the view."
+        askAiPrompt="What community resources should I use if I want to present S-Gold professionally?"
+        askAiFocus="advisor"
       >
         <Reveal>
           <AssetHub />
@@ -405,6 +468,8 @@ export default function Home() {
         eyebrow="Official Links"
         title="Official pathways should be grouped and ranked like controlled entry points."
         description="Instead of one long list, links are grouped into meaningful categories for website access, documentation, and community distribution."
+        askAiPrompt="Which official S-Gold links should I open first based on what I want to do?"
+        askAiFocus="advisor"
       >
         <Reveal>
           <OfficialLinks />
@@ -416,6 +481,8 @@ export default function Home() {
         eyebrow="KOL Media Matrix"
         title="Social proof works best when it has breathing room and editorial rhythm."
         description="This layout treats KOL and media references like a premium press wall, with measured density and consistent card styling."
+        askAiPrompt="How should I use social proof when presenting S-Gold to someone skeptical?"
+        askAiFocus="advisor"
       >
         <Reveal>
           <SocialProof />
@@ -435,10 +502,15 @@ export default function Home() {
 
       <SectionShell
         id="faq"
-        eyebrow="FAQ"
-        title="Common questions should feel curated, not overloaded."
-        description="A restrained accordion keeps the tone premium while giving visitors direct answers."
+        eyebrow={t(language, copy.sections.faq.eyebrow)}
+        title={t(language, copy.sections.faq.title)}
+        description={t(language, copy.sections.faq.description)}
+        askAiPrompt="Answer my S-Gold questions directly instead of making me browse the FAQ."
+        askAiFocus="advisor"
       >
+        <div className="mb-6">
+          <AskAiButton prompt="I still have questions about S-Gold. Please answer them directly like an advisor." label={t(language, copy.sections.faq.askAi)} />
+        </div>
         <Reveal>
           <FaqAccordion />
         </Reveal>
@@ -450,32 +522,30 @@ export default function Home() {
             <div className="grid gap-8 lg:grid-cols-[1.1fr_0.9fr] lg:items-end">
               <div>
                 <p className="font-[var(--font-inter)] text-sm uppercase tracking-[0.28em] text-gold">Call to Action</p>
+                <p className="font-[var(--font-inter)] text-sm uppercase tracking-[0.28em] text-gold">{t(language, copy.sections.cta.eyebrow)}</p>
                 <h2 className="mt-4 max-w-3xl font-[var(--font-inter)] text-4xl font-semibold tracking-[-0.04em] text-primary md:text-5xl">
-                  Present S-Gold like premium infrastructure, then connect the next layer.
+                  {t(language, copy.sections.cta.title)}
                 </h2>
                 <p className="mt-5 max-w-2xl text-base leading-8 text-secondaryText">
-                  This design system is intentionally ready for future investor portals, AI advisor workflows, and multilingual
-                  content operations.
+                  {t(language, copy.sections.cta.description)}
                 </p>
                 <div className="mt-8 flex flex-wrap gap-4">
-                  <a
-                    href="#hero"
+                  <AskAiButton
+                    prompt="Help me understand S-Gold and recommend what role or path I should consider."
+                    label={t(language, copy.sections.cta.askAi)}
                     className="inline-flex min-h-14 items-center gap-2 rounded-full bg-gradient-to-r from-highlight to-darkGold px-6 font-[var(--font-inter)] text-sm font-medium text-background shadow-gold"
-                  >
-                    Enter Presentation
-                    <ArrowRight className="h-4 w-4" />
-                  </a>
+                  />
                   <a
-                    href="#faq"
+                    href="#what-is"
                     className="inline-flex min-h-14 items-center rounded-full border border-white/10 px-6 font-[var(--font-inter)] text-sm font-medium text-primary"
                   >
-                    Review FAQ
+                    {t(language, copy.sections.cta.explore)}
                   </a>
                 </div>
               </div>
 
               <div className="grid gap-3 sm:grid-cols-3">
-                {footerSignals.map((item) => {
+                {localizedFooterSignals.map((item) => {
                   const Icon = item.icon;
                   return (
                     <div key={item.label} className="rounded-[22px] border border-white/10 bg-background/40 p-5 backdrop-blur-sm">

@@ -3,6 +3,7 @@
 import { Globe2, LoaderCircle, MessageSquareText, RotateCcw, SendHorizonal, Sparkles } from "lucide-react";
 import { useEffect, useMemo, useRef, useState } from "react";
 
+import { AI_ADVISOR_EVENT } from "@/lib/ai-advisor";
 import { advisorFocusOptions, advisorPromptSuggestions } from "@/lib/site-data";
 
 type ChatMessage = {
@@ -17,8 +18,11 @@ type AdvisorState = {
 
 export function AiAdvisor() {
   const [message, setMessage] = useState("");
-  const [focus, setFocus] = useState(advisorFocusOptions[0]?.value ?? "general onboarding");
+  const [focus, setFocus] = useState(advisorFocusOptions[0]?.value ?? "explain");
   const [language, setLanguage] = useState("English");
+  const [goal, setGoal] = useState("");
+  const [budget, setBudget] = useState("");
+  const [context, setContext] = useState("general");
   const listRef = useRef<HTMLDivElement | null>(null);
   const [state, setState] = useState<AdvisorState>({
     error: "",
@@ -38,6 +42,9 @@ export function AiAdvisor() {
         title: "S-Gold AI Advisor",
         subtitle: "Live OpenAI-backed consultation layer",
         focus: "Conversation focus",
+        goal: "Goal",
+        budget: "Budget",
+        context: "Context",
         language: "Language",
         response: "Conversation",
         placeholder:
@@ -48,16 +55,20 @@ export function AiAdvisor() {
         bestUseCases: "Best use cases",
         guardrail: "Guardrail",
         intro:
-          "Use AI Advisor to explain the system, qualify interest, answer investor questions, and guide the next step like a polished sales consultant.",
+          "Use AI Advisor to explain the system, guide participation paths, and help qualify whether the structure fits the user.",
         introMessage:
-          "Welcome to S-Gold AI Advisor. I can help you explain the project to a visitor, an investor, or a node candidate. Ask me about positioning, system logic, revenue framing, or next-step recommendations.",
+          "Hi, I’m your AI advisor.\n\nI can:\n- Explain the system\n- Help you decide your role\n- Walk you through participation paths\n\nWhat would you like to understand?",
         online: "Online",
         empty: "Enter a question to talk with the AI advisor.",
+        quickGuide: "Modes: Explain clarifies the system, Advisor recommends a path, and Simulate gives a consultative participation scenario.",
       },
       中文: {
         title: "S-Gold AI 顾问",
         subtitle: "已接入 OpenAI 的实时顾问层",
         focus: "对话重点",
+        goal: "你的目标",
+        budget: "预算区间",
+        context: "页面上下文",
         language: "回答语言",
         response: "对话记录",
         placeholder: "你可以问系统怎么运作、节点适合谁、怎么对外介绍 S-Gold，或直接要求中文解释。",
@@ -67,16 +78,20 @@ export function AiAdvisor() {
         bestUseCases: "适合场景",
         guardrail: "顾问边界",
         intro:
-          "AI 顾问会以更像商务顾问/销售顾问的方式帮助你解释项目、判断客户兴趣、回答投资人问题，并推进下一步动作。",
+          "AI 顾问的工作重点是解释系统、给出参与路径建议，并帮助判断你是否适合继续了解或参与。",
         introMessage:
-          "欢迎来到 S-Gold AI 顾问。我可以帮你用更专业的方式解释项目，适合新用户、合作方、节点候选人或投资人沟通。你可以直接问我：这个项目适合谁、怎么介绍、系统逻辑是什么。",
+          "你好，我是你的 AI 顾问。\n\n我可以：\n- 解释系统\n- 帮你判断适合的角色\n- 带你梳理参与路径\n\n你想先了解哪一部分？",
         online: "在线",
         empty: "请输入你的问题后再发送。",
+        quickGuide: "模式说明：Explain 用来解释系统，Advisor 用来给建议路径，Simulate 会模拟更像顾问式的参与建议。",
       },
       "Bahasa Melayu": {
         title: "Penasihat AI S-Gold",
         subtitle: "Lapisan konsultasi masa nyata berasaskan OpenAI",
         focus: "Fokus perbualan",
+        goal: "Matlamat",
+        budget: "Bajet",
+        context: "Konteks",
         language: "Bahasa jawapan",
         response: "Sejarah perbualan",
         placeholder:
@@ -87,11 +102,12 @@ export function AiAdvisor() {
         bestUseCases: "Kegunaan terbaik",
         guardrail: "Had peranan",
         intro:
-          "AI Advisor membantu menerangkan sistem, menilai minat pengguna, menjawab soalan pelabur, dan membimbing langkah seterusnya dengan nada konsultatif premium.",
+          "AI Advisor membantu menerangkan sistem, membimbing laluan penyertaan, dan menilai sama ada pengguna benar-benar sesuai untuk melangkah lebih jauh.",
         introMessage:
-          "Selamat datang ke S-Gold AI Advisor. Saya boleh bantu anda menerangkan projek ini kepada pelawat baharu, rakan kongsi, calon node, atau pelabur.",
+          "Hi, saya penasihat AI anda.\n\nSaya boleh:\n- Menerangkan sistem\n- Membantu anda menentukan peranan\n- Membimbing laluan penyertaan\n\nApa yang anda ingin fahami dahulu?",
         online: "Dalam talian",
         empty: "Masukkan soalan dahulu sebelum menghantar.",
+        quickGuide: "Mod Explain menerangkan sistem, Advisor mencadangkan laluan, dan Simulate memberi simulasi penyertaan yang lebih konsultatif.",
       },
     };
 
@@ -114,7 +130,15 @@ export function AiAdvisor() {
     });
   }, [history, state.loading]);
 
-  async function submitQuestion(nextMessage?: string) {
+  async function submitQuestion(
+    nextMessage?: string,
+    overrides?: {
+      focus?: string;
+      goal?: string;
+      budget?: string;
+      context?: string;
+    },
+  ) {
     const prompt = (nextMessage ?? message).trim();
 
     if (!prompt) {
@@ -125,6 +149,10 @@ export function AiAdvisor() {
       return;
     }
 
+    const effectiveFocus = overrides?.focus ?? focus;
+    const effectiveGoal = overrides?.goal ?? goal;
+    const effectiveBudget = overrides?.budget ?? budget;
+    const effectiveContext = overrides?.context ?? context;
     const nextHistory = [...history, { role: "user" as const, content: prompt }];
     setHistory(nextHistory);
     setMessage("");
@@ -136,8 +164,13 @@ export function AiAdvisor() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           messages: nextHistory,
-          focus,
+          focus: effectiveFocus,
           language,
+          context: effectiveContext,
+          profile: {
+            goal: effectiveGoal,
+            budget: effectiveBudget,
+          },
         }),
       });
 
@@ -164,6 +197,28 @@ export function AiAdvisor() {
     }
   }
 
+  useEffect(() => {
+    function onPrompt(event: Event) {
+      const customEvent = event as CustomEvent<{ prompt?: string; focus?: string; goal?: string; budget?: string; context?: string }>;
+      const prompt = customEvent.detail?.prompt?.trim();
+      if (!prompt) return;
+      if (customEvent.detail?.focus) setFocus(customEvent.detail.focus);
+      if (customEvent.detail?.goal) setGoal(customEvent.detail.goal);
+      if (customEvent.detail?.budget) setBudget(customEvent.detail.budget);
+      if (customEvent.detail?.context) setContext(customEvent.detail.context);
+      setMessage(prompt);
+      void submitQuestion(prompt, {
+        focus: customEvent.detail?.focus,
+        goal: customEvent.detail?.goal,
+        budget: customEvent.detail?.budget,
+        context: customEvent.detail?.context,
+      });
+    }
+
+    window.addEventListener(AI_ADVISOR_EVENT, onPrompt);
+    return () => window.removeEventListener(AI_ADVISOR_EVENT, onPrompt);
+  }, [copy.empty, goal, budget, focus, history, language, message]);
+
   return (
     <div className="grid gap-5 lg:grid-cols-[0.88fr_1.12fr]">
       <article className="glass-panel rounded-card border border-border p-6 md:p-8">
@@ -176,9 +231,7 @@ export function AiAdvisor() {
           </div>
           <Sparkles className="h-8 w-8 text-highlight" />
         </div>
-        <p className="mt-6 text-base leading-8 text-muted">
-          {copy.intro}
-        </p>
+        <p className="mt-6 text-base leading-8 text-muted">{copy.intro}</p>
 
         <div className="mt-8 space-y-4">
           <div className="rounded-[20px] border border-white/8 bg-white/[0.03] p-4">
@@ -248,6 +301,33 @@ export function AiAdvisor() {
           </label>
         </div>
 
+        <div className="mt-4 grid gap-4 md:grid-cols-2">
+          <label className="space-y-2">
+            <span className="text-sm text-secondaryText">{copy.goal}</span>
+            <input
+              value={goal}
+              onChange={(event) => setGoal(event.target.value)}
+              placeholder={language === "中文" ? "例如：先理解系统 / 评估节点" : language === "Bahasa Melayu" ? "Contoh: faham sistem / nilai node" : "Example: understand the model / evaluate node fit"}
+              className="w-full rounded-2xl border border-white/10 bg-secondary px-4 py-3 text-sm text-primary outline-none transition placeholder:text-muted focus:border-gold/40"
+            />
+          </label>
+          <label className="space-y-2">
+            <span className="text-sm text-secondaryText">{copy.budget}</span>
+            <input
+              value={budget}
+              onChange={(event) => setBudget(event.target.value)}
+              placeholder={language === "中文" ? "例如：Starter / Mid / Strategic" : language === "Bahasa Melayu" ? "Contoh: Starter / Mid / Strategic" : "Example: Starter / Mid / Strategic"}
+              className="w-full rounded-2xl border border-white/10 bg-secondary px-4 py-3 text-sm text-primary outline-none transition placeholder:text-muted focus:border-gold/40"
+            />
+          </label>
+        </div>
+
+        <div className="mt-4 rounded-[20px] border border-white/8 bg-white/[0.03] px-4 py-3 text-sm text-muted">
+          <span className="text-secondaryText">{copy.context}:</span> {context}
+        </div>
+
+        <p className="mt-4 text-sm leading-7 text-muted">{copy.quickGuide}</p>
+
         <div ref={listRef} className="mt-5 max-h-[420px] space-y-4 overflow-y-auto rounded-[24px] border border-white/8 bg-black/20 p-5">
           <p className="font-[var(--font-inter)] text-xs uppercase tracking-[0.24em] text-gold">{copy.response}</p>
           {history.map((item, index) => (
@@ -287,6 +367,28 @@ export function AiAdvisor() {
         </div>
 
         <div className="mt-5 flex flex-wrap gap-2">
+          {[
+            language === "中文" ? "解释系统" : language === "Bahasa Melayu" ? "Terangkan sistem" : "Explain the system",
+            language === "中文" ? "如何开始" : language === "Bahasa Melayu" ? "Bagaimana hendak mula" : "How to start",
+            language === "中文" ? "探索节点选择" : language === "Bahasa Melayu" ? "Teroka pilihan node" : "Explore node options",
+          ].map((label, index) => {
+            const starters = [
+              language === "中文" ? "请先用简单方式解释 S-Gold 系统。" : language === "Bahasa Melayu" ? "Terangkan sistem S-Gold dengan cara mudah." : "Explain the S-Gold system simply.",
+              language === "中文" ? "如果我是第一次接触，我应该怎么开始？" : language === "Bahasa Melayu" ? "Jika saya baru bermula, bagaimana saya patut mula?" : "How should I start with S-Gold?",
+              language === "中文" ? "请帮我判断我适合哪种节点路径。" : language === "Bahasa Melayu" ? "Bantu saya faham node mana yang sesuai untuk saya." : "Help me explore which node option may fit me.",
+            ];
+
+            return (
+              <button
+                key={label}
+                type="button"
+                onClick={() => void submitQuestion(starters[index])}
+                className="rounded-full border border-gold/20 bg-gold/8 px-4 py-2 text-sm text-primary transition hover:border-gold/35"
+              >
+                {label}
+              </button>
+            );
+          })}
           {advisorPromptSuggestions[language as keyof typeof advisorPromptSuggestions]?.map((suggestion) => (
             <button
               key={suggestion}

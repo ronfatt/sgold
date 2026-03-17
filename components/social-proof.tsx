@@ -1,6 +1,12 @@
-import { mediaItems } from "@/lib/site-data";
+"use client";
+
+import { useSiteLanguage } from "@/components/language-provider";
+import { getLocalizedMediaItems } from "@/lib/copy";
 
 export function SocialProof() {
+  const { language } = useSiteLanguage();
+  const mediaItems = getLocalizedMediaItems(language);
+
   return (
     <div className="columns-1 gap-5 md:columns-2 xl:columns-4">
       {mediaItems.map((item) => (

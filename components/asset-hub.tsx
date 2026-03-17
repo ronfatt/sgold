@@ -1,22 +1,29 @@
 "use client";
 
 import { Copy, Download, Eye } from "lucide-react";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
-import { assetHubCategories, assetHubItems } from "@/lib/site-data";
+import { useSiteLanguage } from "@/components/language-provider";
+import { getLocalizedAssetHub } from "@/lib/copy";
 
 export function AssetHub() {
-  const [activeCategory, setActiveCategory] = useState("All");
+  const { language } = useSiteLanguage();
+  const { categories, items: sourceItems, labels } = getLocalizedAssetHub(language);
+  const [activeCategory, setActiveCategory] = useState(language === "zh" ? labels.all : "All");
+
+  useEffect(() => {
+    setActiveCategory(labels.all);
+  }, [labels.all]);
 
   const items = useMemo(() => {
-    if (activeCategory === "All") return assetHubItems;
-    return assetHubItems.filter((item) => item.category === activeCategory);
-  }, [activeCategory]);
+    if (activeCategory === labels.all) return sourceItems;
+    return sourceItems.filter((item) => item.category === activeCategory);
+  }, [activeCategory, labels.all, sourceItems]);
 
   return (
     <div className="space-y-6">
       <div className="flex flex-wrap gap-2">
-        {assetHubCategories.map((category) => (
+        {categories.map((category) => (
           <button
             key={category}
             type="button"
@@ -47,14 +54,14 @@ export function AssetHub() {
                     className="rounded-full border border-gold/25 bg-background/75 px-4 py-2 text-sm text-primary backdrop-blur-sm"
                   >
                     <Download className="mr-2 inline h-4 w-4" />
-                    Download
+                    {labels.download}
                   </button>
                   <button
                     type="button"
                     className="rounded-full border border-white/10 bg-white/[0.06] px-4 py-2 text-sm text-secondaryText backdrop-blur-sm"
                   >
                     <Eye className="mr-2 inline h-4 w-4" />
-                    Preview
+                    {labels.preview}
                   </button>
                 </div>
               </div>
@@ -74,11 +81,11 @@ export function AssetHub() {
               <div className="flex gap-2">
                 <button type="button" className="rounded-full border border-gold/25 bg-gold/10 px-4 py-2 text-sm text-primary">
                   <Download className="mr-2 inline h-4 w-4" />
-                  Download
+                  {labels.download}
                 </button>
                 <button type="button" className="rounded-full border border-white/10 bg-white/[0.03] px-4 py-2 text-sm text-secondaryText">
                   <Copy className="mr-2 inline h-4 w-4" />
-                  Copy Link
+                  {labels.copy}
                 </button>
               </div>
             </div>

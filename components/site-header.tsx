@@ -4,10 +4,22 @@ import clsx from "clsx";
 import { Globe2 } from "lucide-react";
 import { useEffect, useState } from "react";
 
+import { useSiteLanguage } from "@/components/language-provider";
+import { copy, t } from "@/lib/copy";
 import { languageOptions, navItems } from "@/lib/site-data";
 
 export function SiteHeader() {
   const [active, setActive] = useState("hero");
+  const { language, setLanguage } = useSiteLanguage();
+  const labels = {
+    hero: t(language, copy.nav.overview),
+    "what-is": t(language, copy.nav.whatIs),
+    "why-now": t(language, copy.nav.whyNow),
+    architecture: t(language, copy.nav.architecture),
+    revenue: t(language, copy.nav.revenue),
+    "ai-advisor": t(language, copy.nav.ai),
+    faq: t(language, copy.nav.faq),
+  };
 
   useEffect(() => {
     const sections = navItems
@@ -41,7 +53,7 @@ export function SiteHeader() {
           <p className="font-[var(--font-inter)] text-sm font-semibold tracking-[0.24em] text-highlight">
             S-GOLD
           </p>
-          <p className="text-xs text-muted">Digital Asset Infrastructure</p>
+          <p className="text-xs text-muted">{t(language, copy.brandSubline)}</p>
         </div>
       </a>
 
@@ -55,7 +67,7 @@ export function SiteHeader() {
               active === item.id ? "bg-white/[0.06] text-primary" : "text-muted hover:text-secondaryText",
             )}
           >
-            {item.label}
+            {labels[item.id as keyof typeof labels] ?? item.label}
           </a>
         ))}
       </nav>
@@ -63,10 +75,20 @@ export function SiteHeader() {
       <div className="flex items-center gap-2 rounded-full border border-white/8 bg-white/[0.03] px-3 py-2">
         <Globe2 className="h-4 w-4 text-gold" />
         <div className="flex items-center gap-1 text-sm text-muted">
-          {languageOptions.map((item, index) => (
-            <span key={item} className={clsx(index === 0 && "text-primary")}>
+          {languageOptions.map((item) => (
+            <button
+              key={item}
+              type="button"
+              onClick={() => setLanguage(item === "中文" ? "zh" : "en")}
+              className={clsx(
+                "rounded-full px-2 py-1 transition",
+                (item === "中文" && language === "zh") || (item === "EN" && language === "en")
+                  ? "text-primary"
+                  : "text-muted",
+              )}
+            >
               {item}
-            </span>
+            </button>
           ))}
         </div>
       </div>

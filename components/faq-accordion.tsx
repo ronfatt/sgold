@@ -4,10 +4,13 @@ import { AnimatePresence, motion } from "framer-motion";
 import { ChevronDown } from "lucide-react";
 import { useState } from "react";
 
-import { faqItems } from "@/lib/site-data";
+import { useSiteLanguage } from "@/components/language-provider";
+import { getLocalizedFaqItems } from "@/lib/copy";
 
 export function FaqAccordion() {
   const [open, setOpen] = useState(0);
+  const { language } = useSiteLanguage();
+  const faqItems = getLocalizedFaqItems(language);
 
   return (
     <div className="space-y-4">

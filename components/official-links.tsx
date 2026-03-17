@@ -1,8 +1,13 @@
+"use client";
+
+import { useSiteLanguage } from "@/components/language-provider";
+import { getLocalizedOfficialLinks } from "@/lib/copy";
 import { ExternalLink } from "lucide-react";
 
-import { officialLinkGroups } from "@/lib/site-data";
-
 export function OfficialLinks() {
+  const { language } = useSiteLanguage();
+  const officialLinkGroups = getLocalizedOfficialLinks(language);
+
   return (
     <div className="grid gap-5 lg:grid-cols-3">
       {officialLinkGroups.map((group) => (

@@ -1,6 +1,12 @@
-import { roadmap } from "@/lib/site-data";
+"use client";
+
+import { useSiteLanguage } from "@/components/language-provider";
+import { getLocalizedRoadmap } from "@/lib/copy";
 
 export function RoadmapTimeline() {
+  const { language } = useSiteLanguage();
+  const roadmap = getLocalizedRoadmap(language);
+
   return (
     <div className="space-y-6">
       <div className="hidden gap-5 lg:grid lg:grid-cols-4">

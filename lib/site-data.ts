@@ -317,7 +317,7 @@ export const ctaLinks = [
 export const heroSummary = [
   "Premium dark-theme institutional presentation",
   "Reusable JSON-driven information architecture",
-  "Built for future AI advisory and investor onboarding",
+  "Includes an AI advisor that explains, guides, and simulates participation paths",
 ];
 
 export const footerSignals = [
@@ -490,10 +490,9 @@ export const assetCategoryIcons = {
 };
 
 export const advisorFocusOptions = [
-  { label: "General onboarding", value: "general onboarding" },
-  { label: "Investor explanation", value: "investor explanation" },
-  { label: "Node qualification", value: "node qualification" },
-  { label: "Revenue model clarity", value: "revenue model clarity" },
+  { label: "Explain mode", value: "explain" },
+  { label: "Advisor mode", value: "advisor" },
+  { label: "Simulation mode", value: "simulate" },
 ];
 
 export const advisorPromptSuggestions = {
