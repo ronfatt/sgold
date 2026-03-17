@@ -35,6 +35,28 @@ body::before {
   color: #fff7eb;
 }
 
+.hero-ai-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(214, 185, 138, 0.45) transparent;
+}
+
+.hero-ai-scroll::-webkit-scrollbar {
+  width: 8px;
+}
+
+.hero-ai-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.hero-ai-scroll::-webkit-scrollbar-thumb {
+  border-radius: 999px;
+  background: rgba(214, 185, 138, 0.28);
+}
+
+.hero-ai-scroll::-webkit-scrollbar-thumb:hover {
+  background: rgba(214, 185, 138, 0.45);
+}
+
 @layer components {
   .glass-panel {
     @apply border border-white/10 bg-white/[0.03] backdrop-blur-xl shadow-glass;

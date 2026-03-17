@@ -1,7 +1,7 @@
 "use client";
 
 import { LoaderCircle, SendHorizonal, Sparkles } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import { useSiteLanguage } from "@/components/language-provider";
 import { AI_ADVISOR_EVENT, dispatchAiAdvisorPrompt } from "@/lib/ai-advisor";
@@ -12,6 +12,7 @@ export function HeroAiPanel() {
   const [answer, setAnswer] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const answerRef = useRef<HTMLDivElement | null>(null);
 
   const localized = language === "zh"
     ? {
@@ -26,6 +27,7 @@ export function HeroAiPanel() {
         initial:
           "先提一个问题，我会直接用简洁的方式解释系统、参与路径或风险提示。",
         error: "AI 顾问暂时无法响应，请稍后再试。",
+        responseTitle: "回答",
       }
     : {
         title: "AI Advisor",
@@ -43,6 +45,7 @@ export function HeroAiPanel() {
         initial:
           "Ask one question to get a simple explanation, participation guidance, or a clear risk note.",
         error: "The AI advisor could not respond right now. Please try again.",
+        responseTitle: "Response",
       };
 
   async function ask(prompt: string, focus = "explain") {
@@ -92,12 +95,16 @@ export function HeroAiPanel() {
     return () => window.removeEventListener(AI_ADVISOR_EVENT, onPrompt);
   }, [language, localized.error]);
 
+  useEffect(() => {
+    answerRef.current?.scrollTo({ top: 0, behavior: "smooth" });
+  }, [answer, error, loading]);
+
   function handleQuickAsk(prompt: string, focus = "explain") {
     dispatchAiAdvisorPrompt({ prompt, focus, context: "hero" });
   }
 
   return (
-    <div className="absolute inset-x-0 top-1/2 mx-auto max-w-lg -translate-y-1/2 space-y-5 rounded-[32px] bg-background/78 px-6 py-6 backdrop-blur-xl shadow-[0_0_0_1px_rgba(214,185,138,0.18),0_28px_100px_rgba(214,185,138,0.18)]">
+    <div className="absolute inset-x-4 top-24 bottom-6 mx-auto flex max-w-xl flex-col gap-4 overflow-hidden rounded-[32px] bg-background/82 px-5 py-5 backdrop-blur-xl shadow-[0_0_0_1px_rgba(214,185,138,0.18),0_28px_100px_rgba(214,185,138,0.18)] md:inset-x-6 md:top-28 md:bottom-8 md:px-6 md:py-6">
       <div className="flex items-center gap-3">
         <div className="grid h-10 w-10 place-items-center rounded-full bg-gold/12 shadow-[0_0_24px_rgba(214,185,138,0.22)]">
           <Sparkles className="h-4 w-4 text-gold" />
@@ -108,11 +115,13 @@ export function HeroAiPanel() {
         </div>
       </div>
 
-      <ul className="space-y-2 text-sm leading-7 text-secondaryText">
-        {localized.questions.map((question) => (
-          <li key={question}>- {question}</li>
-        ))}
-      </ul>
+      {!answer && !loading && !error ? (
+        <ul className="space-y-2 text-sm leading-7 text-secondaryText">
+          {localized.questions.map((question) => (
+            <li key={question}>- {question}</li>
+          ))}
+        </ul>
+      ) : null}
 
       <div className="flex gap-2">
         <input
@@ -132,8 +141,18 @@ export function HeroAiPanel() {
         </button>
       </div>
 
-      <div className="min-h-[148px] rounded-[24px] bg-white/[0.03] px-4 py-4 text-sm leading-7 text-secondaryText ring-1 ring-white/8">
-        {error ? <p className="text-[rgb(240,180,180)]">{error}</p> : <p className="whitespace-pre-line">{answer || localized.initial}</p>}
+      <div className="flex min-h-0 flex-1 flex-col overflow-hidden rounded-[24px] bg-white/[0.03] px-4 py-4 ring-1 ring-white/8">
+        <p className="mb-3 font-[var(--font-inter)] text-xs uppercase tracking-[0.24em] text-gold">{localized.responseTitle}</p>
+        <div
+          ref={answerRef}
+          className="hero-ai-scroll min-h-[180px] flex-1 overflow-y-auto pr-2 text-sm leading-7 text-secondaryText"
+        >
+          {error ? (
+            <p className="text-[rgb(240,180,180)]">{error}</p>
+          ) : (
+            <p className="whitespace-pre-line break-words">{answer || localized.initial}</p>
+          )}
+        </div>
       </div>
 
       <div className="flex flex-wrap gap-2">
