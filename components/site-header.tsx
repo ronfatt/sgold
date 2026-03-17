@@ -17,7 +17,6 @@ export function SiteHeader() {
     "why-now": t(language, copy.nav.whyNow),
     architecture: t(language, copy.nav.architecture),
     revenue: t(language, copy.nav.revenue),
-    "ai-advisor": t(language, copy.nav.ai),
     faq: t(language, copy.nav.faq),
   };
 

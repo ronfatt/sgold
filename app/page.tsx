@@ -2,12 +2,10 @@
 
 import { ArrowRight, ChevronRight } from "lucide-react";
 
-import { AiAdvisor } from "@/components/ai-advisor";
 import { AskAiButton } from "@/components/ask-ai-button";
 import { AssetHub } from "@/components/asset-hub";
 import { DownloadCenter } from "@/components/download-center";
 import { FaqAccordion } from "@/components/faq-accordion";
-import { FloatingAiWidget } from "@/components/floating-ai-widget";
 import { FlowDiagram } from "@/components/flow-diagram";
 import { GrowthDiagram } from "@/components/growth-diagram";
 import { HeroAiPanel } from "@/components/hero-ai-panel";
@@ -46,7 +44,6 @@ export default function Home() {
   return (
     <main className="pb-16">
       <SiteHeader />
-      <FloatingAiWidget />
 
       <section id="hero" className="section-shell grid items-center gap-10 lg:grid-cols-[1.05fr_0.95fr] lg:pt-16">
         <Reveal className="space-y-8">
@@ -321,9 +318,9 @@ export default function Home() {
 
       <SectionShell
         id="node-system"
-        eyebrow="Node System"
-        title="Node tiers are presented like premium pricing and participation packages."
-        description="This gives larger participants and team leaders a clean institutional frame for roles, benefits, and progression. Not sure which node fits you? Ask the AI advisor."
+        eyebrow={t(language, copy.sections.node.eyebrow)}
+        title={t(language, copy.sections.node.title)}
+        description={t(language, copy.sections.node.description)}
         askAiPrompt="Which S-Gold node tier might fit me best if I tell you my goals and budget?"
         askAiFocus="advisor"
       >
@@ -338,7 +335,7 @@ export default function Home() {
                 <p className="mt-4 flex-1 text-base leading-8 text-muted">{card.description}</p>
                 <div className="mt-8 rounded-[20px] border border-white/8 bg-white/[0.03] p-4">
                   <p className="text-sm leading-7 text-secondaryText">
-                    Includes narrative support, onboarding materials, and role-specific growth positioning.
+                    {t(language, copy.sections.node.support)}
                   </p>
                 </div>
               </article>
@@ -349,9 +346,9 @@ export default function Home() {
 
       <SectionShell
         id="ecosystem"
-        eyebrow="Ecosystem"
-        title="The ecosystem is grouped into clear operating categories."
-        description="Logo grids are shown as curated placeholders so future partners can be swapped in without touching layout logic."
+        eyebrow={t(language, copy.sections.ecosystem.eyebrow)}
+        title={t(language, copy.sections.ecosystem.title)}
+        description={t(language, copy.sections.ecosystem.description)}
         askAiPrompt="Explain how the S-Gold ecosystem connects infrastructure, payments, and consumption."
         askAiFocus="explain"
       >
@@ -380,9 +377,9 @@ export default function Home() {
 
       <SectionShell
         id="roadmap"
-        eyebrow="Roadmap"
-        title="The roadmap should feel like an operating timeline, not a stack of black cards."
-        description="Desktop uses a horizontal phase progression, while mobile shifts to a clear vertical track with highlighted status states."
+        eyebrow={t(language, copy.sections.roadmap.eyebrow)}
+        title={t(language, copy.sections.roadmap.title)}
+        description={t(language, copy.sections.roadmap.description)}
         askAiPrompt="Summarize the S-Gold roadmap and tell me what stage the project is in right now."
         askAiFocus="advisor"
       >
@@ -393,9 +390,9 @@ export default function Home() {
 
       <SectionShell
         id="asset-hub"
-        eyebrow="Community Asset Hub"
-        title="Community resources need system logic, not a pile of loose files."
-        description="Tabs organize the library, card proportions stay consistent, and the hover layer keeps downloads clean without cluttering the view."
+        eyebrow={t(language, copy.sections.assetHub.eyebrow)}
+        title={t(language, copy.sections.assetHub.title)}
+        description={t(language, copy.sections.assetHub.description)}
         askAiPrompt="What community resources should I use if I want to present S-Gold professionally?"
         askAiFocus="advisor"
       >
@@ -406,9 +403,9 @@ export default function Home() {
 
       <SectionShell
         id="official-links"
-        eyebrow="Official Links"
-        title="Official pathways should be grouped and ranked like controlled entry points."
-        description="Instead of one long list, links are grouped into meaningful categories for website access, documentation, and community distribution."
+        eyebrow={t(language, copy.sections.officialLinks.eyebrow)}
+        title={t(language, copy.sections.officialLinks.title)}
+        description={t(language, copy.sections.officialLinks.description)}
         askAiPrompt="Which official S-Gold links should I open first based on what I want to do?"
         askAiFocus="advisor"
       >
@@ -419,25 +416,14 @@ export default function Home() {
 
       <SectionShell
         id="kol-media"
-        eyebrow="KOL Media Matrix"
-        title="Social proof works best when it has breathing room and editorial rhythm."
-        description="This layout treats KOL and media references like a premium press wall, with measured density and consistent card styling."
+        eyebrow={t(language, copy.sections.kolMedia.eyebrow)}
+        title={t(language, copy.sections.kolMedia.title)}
+        description={t(language, copy.sections.kolMedia.description)}
         askAiPrompt="How should I use social proof when presenting S-Gold to someone skeptical?"
         askAiFocus="advisor"
       >
         <Reveal>
           <SocialProof />
-        </Reveal>
-      </SectionShell>
-
-      <SectionShell
-        id="ai-advisor"
-        eyebrow="AI Advisor"
-        title="Turn the presentation into a guided conversation layer."
-        description="This section connects the premium landing page to a real OpenAI-backed advisor so visitors can ask direct questions instead of bouncing between static blocks."
-      >
-        <Reveal>
-          <AiAdvisor />
         </Reveal>
       </SectionShell>
 

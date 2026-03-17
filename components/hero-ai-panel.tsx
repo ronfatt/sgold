@@ -1,14 +1,17 @@
 "use client";
 
-import { SendHorizonal, Sparkles } from "lucide-react";
-import { useState } from "react";
+import { LoaderCircle, SendHorizonal, Sparkles } from "lucide-react";
+import { useEffect, useState } from "react";
 
 import { useSiteLanguage } from "@/components/language-provider";
-import { dispatchAiAdvisorPrompt } from "@/lib/ai-advisor";
+import { AI_ADVISOR_EVENT, dispatchAiAdvisorPrompt } from "@/lib/ai-advisor";
 
 export function HeroAiPanel() {
   const [message, setMessage] = useState("");
   const { language } = useSiteLanguage();
+  const [answer, setAnswer] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
   const localized = language === "zh"
     ? {
@@ -20,6 +23,9 @@ export function HeroAiPanel() {
         quick1: "什么是 S-Gold？",
         quick2: "收益逻辑是什么？",
         quick3: "我该怎么开始？",
+        initial:
+          "先提一个问题，我会直接用简洁的方式解释系统、参与路径或风险提示。",
+        error: "AI 顾问暂时无法响应，请稍后再试。",
       }
     : {
         title: "AI Advisor",
@@ -34,17 +40,60 @@ export function HeroAiPanel() {
         quick1: "What is S-Gold?",
         quick2: "How does revenue work?",
         quick3: "How should I start?",
+        initial:
+          "Ask one question to get a simple explanation, participation guidance, or a clear risk note.",
+        error: "The AI advisor could not respond right now. Please try again.",
       };
 
-  function ask(prompt: string, focus = "explain") {
-    if (!prompt.trim()) return;
-    dispatchAiAdvisorPrompt({
-      prompt,
-      focus,
-      context: "hero",
-    });
-    document.getElementById("ai-advisor")?.scrollIntoView({ behavior: "smooth", block: "start" });
-    setMessage("");
+  async function ask(prompt: string, focus = "explain") {
+    const nextPrompt = prompt.trim();
+    if (!nextPrompt) return;
+
+    setLoading(true);
+    setError("");
+    setAnswer("");
+
+    try {
+      const response = await fetch("/api/advisor", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          messages: [{ role: "user", content: nextPrompt }],
+          focus,
+          language: language === "zh" ? "中文" : "English",
+          context: "hero",
+        }),
+      });
+
+      const data = (await response.json()) as { answer?: string; error?: string };
+
+      if (!response.ok || !data.answer) {
+        throw new Error(data.error || localized.error);
+      }
+
+      setAnswer(data.answer);
+      setMessage("");
+    } catch (nextError) {
+      setError(nextError instanceof Error ? nextError.message : localized.error);
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  useEffect(() => {
+    function onPrompt(event: Event) {
+      const customEvent = event as CustomEvent<{ prompt?: string; focus?: string }>;
+      const prompt = customEvent.detail?.prompt?.trim();
+      if (!prompt) return;
+      void ask(prompt, customEvent.detail?.focus ?? "explain");
+    }
+
+    window.addEventListener(AI_ADVISOR_EVENT, onPrompt);
+    return () => window.removeEventListener(AI_ADVISOR_EVENT, onPrompt);
+  }, [language, localized.error]);
+
+  function handleQuickAsk(prompt: string, focus = "explain") {
+    dispatchAiAdvisorPrompt({ prompt, focus, context: "hero" });
   }
 
   return (
@@ -74,32 +123,37 @@ export function HeroAiPanel() {
         />
         <button
           type="button"
-          onClick={() => ask(message)}
-          className="inline-flex h-12 items-center justify-center rounded-full bg-gradient-to-r from-highlight to-darkGold px-4 text-sm font-medium text-background shadow-gold"
+          onClick={() => void ask(message)}
+          className="inline-flex h-12 items-center justify-center rounded-full bg-gradient-to-r from-highlight to-darkGold px-4 text-sm font-medium text-background shadow-gold disabled:opacity-70"
+          disabled={loading}
         >
-          <span>{localized.ask}</span>
-          <SendHorizonal className="ml-2 h-4 w-4" />
+          {loading ? <LoaderCircle className="h-4 w-4 animate-spin" /> : <span>{localized.ask}</span>}
+          {!loading ? <SendHorizonal className="ml-2 h-4 w-4" /> : null}
         </button>
+      </div>
+
+      <div className="min-h-[148px] rounded-[24px] bg-white/[0.03] px-4 py-4 text-sm leading-7 text-secondaryText ring-1 ring-white/8">
+        {error ? <p className="text-[rgb(240,180,180)]">{error}</p> : <p className="whitespace-pre-line">{answer || localized.initial}</p>}
       </div>
 
       <div className="flex flex-wrap gap-2">
         <button
           type="button"
-          onClick={() => ask(localized.quick1, "explain")}
+          onClick={() => handleQuickAsk(localized.quick1, "explain")}
           className="rounded-full bg-white/[0.04] px-4 py-2 text-sm text-secondaryText transition hover:bg-gold/10 hover:text-primary"
         >
           {localized.quick1}
         </button>
         <button
           type="button"
-          onClick={() => ask(localized.quick2, "explain")}
+          onClick={() => handleQuickAsk(localized.quick2, "explain")}
           className="rounded-full bg-white/[0.04] px-4 py-2 text-sm text-secondaryText transition hover:bg-gold/10 hover:text-primary"
         >
           {localized.quick2}
         </button>
         <button
           type="button"
-          onClick={() => ask(localized.quick3, "advisor")}
+          onClick={() => handleQuickAsk(localized.quick3, "advisor")}
           className="rounded-full bg-white/[0.04] px-4 py-2 text-sm text-secondaryText transition hover:bg-gold/10 hover:text-primary"
         >
           {localized.quick3}

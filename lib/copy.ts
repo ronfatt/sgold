@@ -148,6 +148,76 @@ export const copy = {
         zh: "这棵增长树保持克制与高级感，同时也足够清晰地展示网络扩张结构。无论是人还是 AI，都能读懂它。",
       },
     },
+    node: {
+      eyebrow: { en: "Node System", zh: "节点体系" },
+      title: {
+        en: "Node tiers are presented like premium pricing and participation packages.",
+        zh: "节点层级被设计成高端定价与参与方案，而不是普通等级说明。",
+      },
+      description: {
+        en: "This gives larger participants and team leaders a clean institutional frame for roles, benefits, and progression. Not sure which node fits you? Ask the AI advisor.",
+        zh: "这为大资金参与者和团队长提供了清晰的机构化角色、权益与升级框架。如果你不确定适合哪种节点，可以直接问 AI 顾问。",
+      },
+      support: {
+        en: "Includes narrative support, onboarding materials, and role-specific growth positioning.",
+        zh: "包含叙事支持、入门资料和面向不同角色的增长定位。",
+      },
+    },
+    ecosystem: {
+      eyebrow: { en: "Ecosystem", zh: "生态版图" },
+      title: {
+        en: "The ecosystem is grouped into clear operating categories.",
+        zh: "生态内容按清晰的运作类别组织，而不是堆成一页素材。",
+      },
+      description: {
+        en: "Logo grids are shown as curated placeholders so future partners can be swapped in without touching layout logic.",
+        zh: "这里用分组化的占位标识展示未来生态伙伴，后续替换品牌也不需要改动页面结构。",
+      },
+    },
+    roadmap: {
+      eyebrow: { en: "Roadmap", zh: "发展路线图" },
+      title: {
+        en: "The roadmap should feel like an operating timeline, not a stack of black cards.",
+        zh: "路线图应该像一条系统运营时间线，而不是一堆厚重黑卡片。",
+      },
+      description: {
+        en: "Desktop uses a horizontal phase progression, while mobile shifts to a clear vertical track with highlighted status states.",
+        zh: "桌面端采用横向阶段推进，移动端则切换成清晰的纵向时间线，并突出当前阶段状态。",
+      },
+    },
+    assetHub: {
+      eyebrow: { en: "Community Asset Hub", zh: "社群资源中心" },
+      title: {
+        en: "Community resources need system logic, not a pile of loose files.",
+        zh: "社群资源需要系统化组织，而不是一堆零散文件。",
+      },
+      description: {
+        en: "Tabs organize the library, card proportions stay consistent, and the hover layer keeps downloads clean without cluttering the view.",
+        zh: "这里通过分类标签组织资源库，统一卡片比例，并用悬停层保持下载入口清晰而不杂乱。",
+      },
+    },
+    officialLinks: {
+      eyebrow: { en: "Official Links", zh: "官方链接" },
+      title: {
+        en: "Official pathways should be grouped and ranked like controlled entry points.",
+        zh: "官方入口应该被分组和排序，像受控的正式访问通道。",
+      },
+      description: {
+        en: "Instead of one long list, links are grouped into meaningful categories for website access, documentation, and community distribution.",
+        zh: "我们不再使用一长串列表，而是把链接分成官网、文档和社群等有意义的类别。",
+      },
+    },
+    kolMedia: {
+      eyebrow: { en: "KOL Media Matrix", zh: "KOL 媒体矩阵" },
+      title: {
+        en: "Social proof works best when it has breathing room and editorial rhythm.",
+        zh: "社会证明最有效的时候，是它有留白、有节奏，而且像被编辑过一样克制。",
+      },
+      description: {
+        en: "This layout treats KOL and media references like a premium press wall, with measured density and consistent card styling.",
+        zh: "这里把 KOL 与媒体引用做成高端发布墙风格，控制信息密度，并保持统一卡片语言。",
+      },
+    },
     faq: {
       eyebrow: { en: "FAQ", zh: "常见问题" },
       title: {

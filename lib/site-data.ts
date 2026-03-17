@@ -84,7 +84,6 @@ export const navItems: NavItem[] = [
   { id: "why-now", label: "Why Now" },
   { id: "architecture", label: "Architecture" },
   { id: "revenue", label: "Revenue" },
-  { id: "ai-advisor", label: "AI Advisor" },
   { id: "faq", label: "FAQ" },
 ];
 
