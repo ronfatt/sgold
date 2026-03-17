@@ -3,16 +3,32 @@ import {
   Banknote,
   BriefcaseBusiness,
   Building2,
+  CalendarRange,
   CircleDollarSign,
   Coins,
   Cpu,
+  Download,
+  FileBadge2,
+  FileImage,
+  FileText,
   Gem,
   Globe2,
+  Images,
   Landmark,
   Layers3,
+  Link2,
+  MessageCircleMore,
   Network,
+  Newspaper,
+  PenTool,
+  PlayCircle,
+  Presentation,
+  RadioTower,
+  Shield,
   ShieldCheck,
   Sparkles,
+  Star,
+  Users,
   Wallet,
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
@@ -24,6 +40,43 @@ export type CardItem = {
   icon?: LucideIcon;
   eyebrow?: string;
 };
+export type DownloadItem = {
+  title: string;
+  description: string;
+  size: string;
+  tag: string;
+  gradient: string;
+};
+export type RoadmapPhase = {
+  phase: string;
+  title: string;
+  status: "LIVE" | "IN PROGRESS" | "PLANNED";
+  points: string[];
+};
+export type AssetHubItem = {
+  title: string;
+  size: string;
+  type: string;
+  category: string;
+  gradient: string;
+};
+export type OfficialLinkGroup = {
+  title: string;
+  items: {
+    title: string;
+    description: string;
+    href: string;
+    icon: LucideIcon;
+  }[];
+};
+export type MediaItem = {
+  name: string;
+  role: string;
+  platform: string;
+  tag: string;
+  metric: string;
+  excerpt: string;
+};
 
 export const navItems: NavItem[] = [
   { id: "hero", label: "Overview" },
@@ -31,6 +84,7 @@ export const navItems: NavItem[] = [
   { id: "why-now", label: "Why Now" },
   { id: "architecture", label: "Architecture" },
   { id: "revenue", label: "Revenue" },
+  { id: "ai-advisor", label: "AI Advisor" },
   { id: "faq", label: "FAQ" },
 ];
 
@@ -188,10 +242,46 @@ export const ecosystemGroups = [
 ];
 
 export const roadmap = [
-  { phase: "Phase 1", title: "Foundation", description: "Narrative, architecture, and base participation model." },
-  { phase: "Phase 2", title: "Activation", description: "Core system launch with revenue logic and onboarding structure." },
-  { phase: "Phase 3", title: "Expansion", description: "Regional node growth and broader payment or demand scenarios." },
-  { phase: "Phase 4", title: "Integration", description: "Full ecosystem loop connecting asset, payment, and consumption." },
+  {
+    phase: "2025 Q4",
+    title: "Foundation Buildout",
+    status: "LIVE",
+    points: [
+      "Core presentation framework completed",
+      "Premium investor-facing information architecture",
+      "Initial node and revenue narrative aligned",
+    ],
+  },
+  {
+    phase: "2026 Q1",
+    title: "Activation Layer",
+    status: "IN PROGRESS",
+    points: [
+      "AI advisor and onboarding guidance online",
+      "System access flow and official resources published",
+      "Early partner and community touchpoints launched",
+    ],
+  },
+  {
+    phase: "2026 Q2",
+    title: "Regional Expansion",
+    status: "PLANNED",
+    points: [
+      "Node program growth across priority markets",
+      "Localized communication and content packs",
+      "Broader finance and payment scenario rollout",
+    ],
+  },
+  {
+    phase: "2026 Q3",
+    title: "Ecosystem Loop",
+    status: "PLANNED",
+    points: [
+      "Consumption and entertainment demand layer expansion",
+      "Integrated ecosystem dashboard and strategic reporting",
+      "Closed-loop positioning across asset, finance, and usage",
+    ],
+  },
 ];
 
 export const faqItems = [
@@ -235,3 +325,194 @@ export const footerSignals = [
   { label: "Investor-facing", icon: BriefcaseBusiness },
   { label: "Infrastructure-led", icon: Building2 },
 ];
+
+export const downloadCenterFeatured: DownloadItem = {
+  title: "S-Gold Institutional Whitepaper",
+  description:
+    "A premium overview of the project narrative, system structure, economic logic, and long-term infrastructure thesis.",
+  size: "18.4 MB",
+  tag: "Whitepaper",
+  gradient: "from-[#2a2419] via-[#18130f] to-[#0d0d0e]",
+};
+
+export const downloadCenterItems: DownloadItem[] = [
+  {
+    title: "System Mechanism Brief",
+    description: "Boardroom-ready explanation of system logic, participation design, and operating roles.",
+    size: "6.2 MB",
+    tag: "Mechanism",
+    gradient: "from-[#2b241b] to-[#141518]",
+  },
+  {
+    title: "Ecosystem Overview Deck",
+    description: "Cross-category summary of blockchain, finance, and consumption layers in one visual deck.",
+    size: "8.7 MB",
+    tag: "Ecosystem",
+    gradient: "from-[#15181d] to-[#251d15]",
+  },
+  {
+    title: "Brand Asset Pack",
+    description: "Official logotypes, dark-theme layouts, and brand visual assets for community and partner use.",
+    size: "12.1 MB",
+    tag: "Visual Assets",
+    gradient: "from-[#17161a] to-[#302517]",
+  },
+];
+
+export const assetHubCategories = ["All", "Posters", "Branding", "Event Materials", "Office Visuals"];
+
+export const assetHubItems: AssetHubItem[] = [
+  { title: "Premium Launch Poster", size: "4.6 MB", type: "PNG", category: "Posters", gradient: "from-[#2b2116] to-[#121316]" },
+  { title: "Dark Brand Cover", size: "2.8 MB", type: "AI", category: "Branding", gradient: "from-[#111418] to-[#2a1e14]" },
+  { title: "Node Brief Backdrop", size: "7.4 MB", type: "PSD", category: "Event Materials", gradient: "from-[#201913] to-[#101114]" },
+  { title: "Lobby Screen Visual", size: "5.2 MB", type: "PNG", category: "Office Visuals", gradient: "from-[#17181c] to-[#2d2317]" },
+  { title: "Investor One-Pager", size: "1.9 MB", type: "PDF", category: "Branding", gradient: "from-[#15161a] to-[#221b14]" },
+  { title: "Regional Meetup Poster", size: "3.1 MB", type: "PNG", category: "Posters", gradient: "from-[#2d2417] to-[#101215]" },
+];
+
+export const officialLinkGroups: OfficialLinkGroup[] = [
+  {
+    title: "Website",
+    items: [
+      {
+        title: "Main Presentation",
+        description: "Public-facing institutional landing page and high-level narrative entry point.",
+        href: "#hero",
+        icon: Globe2,
+      },
+      {
+        title: "Access Request",
+        description: "Primary conversion path for interested partners, users, and ecosystem collaborators.",
+        href: "#footer-cta",
+        icon: ArrowRight,
+      },
+    ],
+  },
+  {
+    title: "Docs",
+    items: [
+      {
+        title: "Whitepaper",
+        description: "Foundational thesis, mechanism explanation, and strategic positioning material.",
+        href: "#download-center",
+        icon: FileText,
+      },
+      {
+        title: "Roadmap Brief",
+        description: "Current stage visibility and forward expansion logic for internal and external stakeholders.",
+        href: "#roadmap",
+        icon: CalendarRange,
+      },
+    ],
+  },
+  {
+    title: "Social & Community",
+    items: [
+      {
+        title: "Community Resources",
+        description: "Reusable campaign materials, visual assets, and public distribution files.",
+        href: "#asset-hub",
+        icon: RadioTower,
+      },
+      {
+        title: "Media Matrix",
+        description: "Third-party voice layer, KOL coverage, and social proof for external validation.",
+        href: "#kol-media",
+        icon: Users,
+      },
+    ],
+  },
+];
+
+export const mediaItems: MediaItem[] = [
+  {
+    name: "Aiden Cole",
+    role: "Macro & Web3 Commentator",
+    platform: "X / Twitter",
+    tag: "Verified",
+    metric: "248K followers",
+    excerpt: "S-Gold is presenting itself less like a token campaign and more like a digital asset operating narrative. That framing is unusual and stronger.",
+  },
+  {
+    name: "Mira Tan",
+    role: "Institutional Growth Writer",
+    platform: "LinkedIn",
+    tag: "Media",
+    metric: "91K followers",
+    excerpt: "The strongest part of the site is its structure. It feels designed for strategic review, not short-term hype cycles.",
+  },
+  {
+    name: "Leo Han",
+    role: "Crypto Infrastructure KOL",
+    platform: "X / Twitter",
+    tag: "Influencer",
+    metric: "412K views",
+    excerpt: "What stands out is the attempt to connect assets, settlement, and consumption under one clean system story.",
+  },
+  {
+    name: "Nadia Reyes",
+    role: "Digital Finance Analyst",
+    platform: "Newsletter",
+    tag: "Verified",
+    metric: "37K subscribers",
+    excerpt: "The premium dark-library style gives the project more credibility than the usual exchange-like landing page patterns.",
+  },
+  {
+    name: "Kai Mercer",
+    role: "Community Strategy Lead",
+    platform: "X / Twitter",
+    tag: "Influencer",
+    metric: "179K followers",
+    excerpt: "If this narrative is paired with real operational tools and consistent resources, it can scale cleanly across regions and teams.",
+  },
+  {
+    name: "Sora Media",
+    role: "Web3 Media Desk",
+    platform: "Media Brief",
+    tag: "Media",
+    metric: "Featured coverage",
+    excerpt: "S-Gold’s presentation emphasizes controlled expansion, node clarity, and institutional readability rather than speculative aggression.",
+  },
+];
+
+export const downloadCategoryIcons = {
+  Whitepaper: FileText,
+  Mechanism: FileBadge2,
+  Ecosystem: Shield,
+  "Visual Assets": FileImage,
+};
+
+export const assetCategoryIcons = {
+  Posters: Presentation,
+  Branding: PenTool,
+  "Event Materials": Newspaper,
+  "Office Visuals": Images,
+};
+
+export const advisorFocusOptions = [
+  { label: "General onboarding", value: "general onboarding" },
+  { label: "Investor explanation", value: "investor explanation" },
+  { label: "Node qualification", value: "node qualification" },
+  { label: "Revenue model clarity", value: "revenue model clarity" },
+];
+
+export const advisorPromptSuggestions = {
+  English: [
+    "Explain S-Gold in simple terms for a new visitor.",
+    "How should I present the node system to a strategic partner?",
+    "What makes the revenue model different from a hype token page?",
+    "Translate the project positioning into Chinese.",
+  ],
+  中文: [
+    "请用适合新用户的方式解释 S-Gold 是什么。",
+    "如果我要向合作方介绍节点体系，应该怎么说？",
+    "这个项目和普通炒作型币圈页面有什么不同？",
+    "请把项目定位整理成一段中文商务介绍。",
+  ],
+  "Bahasa Melayu": [
+    "Terangkan S-Gold dengan mudah untuk pengguna baharu.",
+    "Bagaimana saya patut jelaskan sistem node kepada rakan strategik?",
+    "Apa bezanya model ini dengan halaman kripto yang terlalu hype?",
+    "Tolong terjemahkan positioning projek ini ke Bahasa Melayu.",
+  ],
+};

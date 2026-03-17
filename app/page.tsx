@@ -1,12 +1,18 @@
 import { ArrowRight, Check, ChevronRight } from "lucide-react";
 
+import { AiAdvisor } from "@/components/ai-advisor";
+import { AssetHub } from "@/components/asset-hub";
+import { DownloadCenter } from "@/components/download-center";
 import { FaqAccordion } from "@/components/faq-accordion";
 import { FlowDiagram } from "@/components/flow-diagram";
 import { GrowthDiagram } from "@/components/growth-diagram";
+import { OfficialLinks } from "@/components/official-links";
 import { Reveal } from "@/components/reveal";
 import { RevenueDiagram } from "@/components/revenue-diagram";
+import { RoadmapTimeline } from "@/components/roadmap-timeline";
 import { SectionShell } from "@/components/section-shell";
 import { SiteHeader } from "@/components/site-header";
+import { SocialProof } from "@/components/social-proof";
 import {
   architectureCards,
   ctaLinks,
@@ -17,7 +23,6 @@ import {
   nodeCards,
   processFlow,
   revenueCards,
-  roadmap,
   whatIsCards,
   whyNowCards,
 } from "@/lib/site-data";
@@ -123,6 +128,17 @@ export default function Home() {
           </div>
         </Reveal>
       </section>
+
+      <SectionShell
+        id="download-center"
+        eyebrow="Download Center"
+        title="Official materials should read like premium institutional documentation."
+        description="A featured document card leads the section, while secondary files stay compact, categorized, and easy to scan."
+      >
+        <Reveal>
+          <DownloadCenter />
+        </Reveal>
+      </SectionShell>
 
       <SectionShell
         id="what-is"
@@ -365,29 +381,56 @@ export default function Home() {
       <SectionShell
         id="roadmap"
         eyebrow="Roadmap"
-        title="A horizontal timeline keeps future expansion credible and concise."
-        description="Each milestone is short, premium, and easy to scan for investors or strategic partners."
+        title="The roadmap should feel like an operating timeline, not a stack of black cards."
+        description="Desktop uses a horizontal phase progression, while mobile shifts to a clear vertical track with highlighted status states."
       >
-        <div className="glass-panel overflow-x-auto rounded-card border border-border p-6 md:p-8">
-          <div className="flex min-w-[760px] items-start gap-5">
-            {roadmap.map((item, index) => (
-              <div key={item.phase} className="flex flex-1 items-start gap-5">
-                <Reveal className="min-w-[220px] flex-1">
-                  <article>
-                    <p className="font-[var(--font-inter)] text-sm uppercase tracking-[0.24em] text-gold">{item.phase}</p>
-                    <h3 className="mt-4 font-[var(--font-inter)] text-2xl font-semibold tracking-[-0.04em] text-primary">
-                      {item.title}
-                    </h3>
-                    <p className="mt-4 text-base leading-8 text-muted">{item.description}</p>
-                  </article>
-                </Reveal>
-                {index < roadmap.length - 1 ? (
-                  <div className="mt-9 h-px w-16 shrink-0 bg-gradient-to-r from-gold/80 to-gold/10" />
-                ) : null}
-              </div>
-            ))}
-          </div>
-        </div>
+        <Reveal>
+          <RoadmapTimeline />
+        </Reveal>
+      </SectionShell>
+
+      <SectionShell
+        id="asset-hub"
+        eyebrow="Community Asset Hub"
+        title="Community resources need system logic, not a pile of loose files."
+        description="Tabs organize the library, card proportions stay consistent, and the hover layer keeps downloads clean without cluttering the view."
+      >
+        <Reveal>
+          <AssetHub />
+        </Reveal>
+      </SectionShell>
+
+      <SectionShell
+        id="official-links"
+        eyebrow="Official Links"
+        title="Official pathways should be grouped and ranked like controlled entry points."
+        description="Instead of one long list, links are grouped into meaningful categories for website access, documentation, and community distribution."
+      >
+        <Reveal>
+          <OfficialLinks />
+        </Reveal>
+      </SectionShell>
+
+      <SectionShell
+        id="kol-media"
+        eyebrow="KOL Media Matrix"
+        title="Social proof works best when it has breathing room and editorial rhythm."
+        description="This layout treats KOL and media references like a premium press wall, with measured density and consistent card styling."
+      >
+        <Reveal>
+          <SocialProof />
+        </Reveal>
+      </SectionShell>
+
+      <SectionShell
+        id="ai-advisor"
+        eyebrow="AI Advisor"
+        title="Turn the presentation into a guided conversation layer."
+        description="This section connects the premium landing page to a real OpenAI-backed advisor so visitors can ask direct questions instead of bouncing between static blocks."
+      >
+        <Reveal>
+          <AiAdvisor />
+        </Reveal>
       </SectionShell>
 
       <SectionShell

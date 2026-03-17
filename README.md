@@ -9,15 +9,26 @@
 - Tailwind CSS
 - Framer Motion
 - lucide-react
+- OpenAI official JavaScript SDK
 
 ## 本地开发
 
 ```bash
-npm install
-npm run dev
+corepack pnpm install
+cp .env.example .env.local
+corepack pnpm dev
 ```
 
 默认访问 `http://localhost:3000`
+
+## 环境变量
+
+```bash
+OPENAI_API_KEY=your_openai_api_key_here
+OPENAI_MODEL=gpt-5
+```
+
+`OPENAI_MODEL` 可选，不填时默认使用 `gpt-5`。
 
 ## 页面模块
 
@@ -28,18 +39,24 @@ npm run dev
 - System Architecture
 - Core Logic
 - Revenue Model
+- Download Center
 - Fission / Growth Model
 - Node System
 - Ecosystem
 - Roadmap
+- Community Asset Hub
+- Official Links
+- KOL Media Matrix
 - FAQ
 - CTA Footer
+- AI Advisor with real OpenAI backend route
 
 ## 内容编辑
 
 主要内容数据位于：
 
 - `lib/site-data.ts`
+- `app/api/advisor/route.ts`
 
 页面结构和组件位于：
 
